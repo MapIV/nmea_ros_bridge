@@ -10,7 +10,7 @@ Requires [nmea_msgs](http://wiki.ros.org/nmea_msgs).
 1) First, download the ros2ized nmea_msgs and nmea_ros_bridge to your colcon_ws directory.
 
         cd $HOME/colcon_ws/src
-        git clone -b ros2 https://github.com/ros-drivers/nmea_msgs.git
+        sudo apt-get install ros-foxy-nmea-msgs
         git clone -b ros2-v0.1.0 https://github.com/MapIV/nmea_ros_bridge.git
 
 2) Build nmea_ros_bridge

@@ -145,8 +145,7 @@ static void packet_receive_rate(int fd, std::string frame_id, double rate)
     rem = w_buffer - r_buffer;
     if (rem > BUFFER_SAFE)
     {
-      // ROS_WARN("Buffer over.Init Buffer.");
-      std::cout << "Buffer over.Init Buffer. " << std::endl;
+      RCLCPP_WARN(node->get_logger(), "Buffer over.Init Buffer.");
       rem = 0;
     }
     memmove(buffer, r_buffer, rem);
@@ -229,8 +228,7 @@ static void packet_receive_no_rate(int fd, std::string frame_id)
     rem = w_buffer - r_buffer;
     if (rem > BUFFER_SAFE)
     {
-      // RCLCPP_WARN("Buffer over.Init Buffer.");
-      std::cout << "Buffer over.Init Buffer. " << std::endl;
+      RCLCPP_WARN(node->get_logger(), "Buffer over.Init Buffer.");
       rem = 0;
     }
     memmove(buffer, r_buffer, rem);
@@ -246,7 +244,6 @@ int main(int argc, char** argv)
 {
   rclcpp::init(argc, argv);
   node = rclcpp::Node::make_shared("nmea_udp");
-  pub = node->create_publisher<nmea_msgs::msg::Sentence>("nmea_topic", 10);
 
   int sock;
   int result,val;
@@ -270,12 +267,13 @@ int main(int argc, char** argv)
   frame_id = node->get_parameter("frame_id").as_string();
   rate = node->get_parameter("rate").as_double();
 
-  std::cout << "address " << address << std::endl;
-  std::cout << "port " << port << std::endl;
-  std::cout << "nmea_topic " << nmea_topic << std::endl;
-  std::cout << "frame_id " << frame_id << std::endl;
-  std::cout << "rate " << rate  << std::endl;
+  pub = node->create_publisher<nmea_msgs::msg::Sentence>(nmea_topic, 10);
 
+  RCLCPP_INFO(node->get_logger(), "IP: %s", address.c_str());
+  RCLCPP_INFO(node->get_logger(), "PORT: %d", port);
+  RCLCPP_INFO(node->get_logger(), "NMEA_TOPIC: %s", nmea_topic.c_str());
+  RCLCPP_INFO(node->get_logger(), "FRAME_ID: %s", frame_id.c_str());
+  RCLCPP_INFO(node->get_logger(), "RATE: %f", rate);
 
   sock = socket(AF_INET, SOCK_DGRAM, 0);
 
@@ -292,7 +290,7 @@ int main(int argc, char** argv)
     if( result < 0 )
     {
       /* non-connect */
-      std::cout << "CONNECT TRY... " << std::endl;
+      RCLCPP_INFO(node->get_logger(), "CONNECT TRY... ");
     }
     else
     {
