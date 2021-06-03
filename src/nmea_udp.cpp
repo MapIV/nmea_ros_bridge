@@ -184,7 +184,7 @@ static void packet_receive_no_rate(int fd, std::string frame_id)
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "nmea_tcp");
+  ros::init(argc, argv, "nmea_udp");
   ros::NodeHandle node_handle_;
 
   int port,sock;
