@@ -25,3 +25,15 @@ add_dependencies(nmea_tcp ${catkin_EXPORTED_TARGETS})
 add_executable(nmea_udp src/nmea_udp.cpp)
 target_link_libraries(nmea_udp ${catkin_LIBRARIES})
 add_dependencies(nmea_udp ${catkin_EXPORTED_TARGETS})
+
+install(TARGETS
+  nmea_tcp
+  nmea_udp
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(
+  DIRECTORY
+    launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
