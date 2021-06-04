@@ -193,11 +193,11 @@ int main(int argc, char** argv)
   double rate;
 
   // Read parameters
-  node_handle_.param("/nmea_udp/address", address, std::string("127.0.0.1"));
-  node_handle_.param("/nmea_udp/port", port, 28003);
-  node_handle_.param("/nmea_udp/nmea_topic", nmea_topic, std::string("nmea_sentence"));
-  node_handle_.param("/nmea_udp/frame_id", frame_id, std::string("sentence"));
-  node_handle_.param("/nmea_udp/rate", rate, 0.0);
+  node_handle_.param("nmea_udp/address", address, std::string("127.0.0.1"));
+  node_handle_.param("nmea_udp/port", port, 28003);
+  node_handle_.param("nmea_udp/nmea_topic", nmea_topic, std::string("nmea_sentence"));
+  node_handle_.param("nmea_udp/frame_id", frame_id, std::string("sentence"));
+  node_handle_.param("nmea_udp/rate", rate, 0.0);
 
   pub = node_handle_.advertise<nmea_msgs::Sentence>(nmea_topic, 10);
 
