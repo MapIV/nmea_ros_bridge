@@ -13,6 +13,7 @@ def generate_launch_description():
     params = yaml.safe_load(f)['nmea_udp']['ros__parameters']
   nmea_udp = launch_ros.actions.Node(package='nmea_ros_bridge',
                                       executable='nmea_udp',
+                                      namespace='navsat',
                                       output='screen',
                                       parameters=[params])
 

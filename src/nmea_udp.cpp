@@ -249,14 +249,14 @@ int main(int argc, char** argv)
   int result,val;
 
   // Read parameters
-  std::string address = "192.168.53.181";
-  int port = 62004;
+  std::string address = "192.168.30.10";
+  int port = 62002;
   std::string nmea_topic = "nmea_sentence";
   std::string frame_id = "sentence";
   double rate = 0.0;
 
-  node->declare_parameter("address","192.168.53.181");
-  node->declare_parameter("port", 62004);
+  node->declare_parameter("address","192.168.30.10");
+  node->declare_parameter("port", 62002);
   node->declare_parameter("nmea_topic", "nmea_sentence");
   node->declare_parameter("frame_id", "sentence");
   node->declare_parameter("rate", 0.0);
