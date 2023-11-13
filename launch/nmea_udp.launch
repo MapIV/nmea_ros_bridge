@@ -2,7 +2,7 @@
 <launch>
   <arg name="config_file" default="$(find nmea_ros_bridge)/config/udp_config.yaml" />
   
-  <node name="nmea_udp" pkg="nmea_ros_bridge" type="nmea_udp" output="screen" respawn="true" respawn_delay="5">
+  <node name="nmea_udp" pkg="nmea_ros_bridge" type="nmea_udp" output="screen">
     <rosparam command="load" file="$(arg config_file)"/>
   </node>
 </launch>
