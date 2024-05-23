@@ -13,11 +13,14 @@
 #include "ros/ros.h"
 #include "nmea_msgs/Sentence.h"
 
+#include "nmea_ros_bridge/util.hpp"
+
 #define BUFFER_SAFE 2000
 
 struct sockaddr_in dstAddr;
 static ros::Publisher pub;
 static bool isConnected = false;
+static bool use_gpstime_ = false;
 
 static void packet_receive_rate(int fd, std::string frame_id, double rate)
 {
@@ -79,9 +82,15 @@ static void packet_receive_rate(int fd, std::string frame_id, double rate)
         break;
       }
       *end_sentence = '\0';
-
+      
       nmea_msg.header.stamp = now;
       nmea_msg.sentence = sentence;
+
+      if (use_gpstime_)
+      {
+        nmea_msg.header.stamp = getGPSTime(sentence, now);
+      }
+
       pub.publish(nmea_msg);
       r_buffer = end_sentence + 1;
     }
@@ -163,6 +172,12 @@ static void packet_receive_no_rate(int fd, std::string frame_id)
 
       nmea_msg.header.stamp = now;
       nmea_msg.sentence = sentence;
+
+      if (use_gpstime_)
+      {
+        nmea_msg.header.stamp = getGPSTime(sentence, now);
+      }
+
       pub.publish(nmea_msg);
       r_buffer = end_sentence + 1;
     }
@@ -199,6 +214,7 @@ int main(int argc, char** argv)
   pnh.param("nmea_udp/nmea_topic", nmea_topic, std::string("nmea_sentence"));
   pnh.param("nmea_udp/frame_id", frame_id, std::string("sentence"));
   pnh.param("nmea_udp/rate", rate, 0.0);
+  pnh.param("nmea_udp/use_gpstime", use_gpstime_, false);
 
   pub = nh.advertise<nmea_msgs::Sentence>(nmea_topic, 10);
 
