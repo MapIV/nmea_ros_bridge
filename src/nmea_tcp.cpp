@@ -200,7 +200,8 @@ static void packet_receive_no_rate(int fd, std::string frame_id)
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "nmea_tcp");
-  ros::NodeHandle node_handle_;
+  ros::NodeHandle nh;
+  ros::NodeHandle pnh("~");
 
   int port,sock;
   std::string address, nmea_topic, frame_id;
@@ -208,14 +209,14 @@ int main(int argc, char** argv)
   double rate;
 
   // Read parameters
-  node_handle_.param("nmea_tcp/address", address, std::string("127.0.0.1"));
-  node_handle_.param("nmea_tcp/port", port, 28003);
-  node_handle_.param("nmea_tcp/nmea_topic", nmea_topic, std::string("nmea_sentence"));
-  node_handle_.param("nmea_tcp/frame_id", frame_id, std::string("sentence"));
-  node_handle_.param("nmea_tcp/rate", rate, 0.0);
-  node_handle_.param("nmea_tcp/use_gpstime", use_gpstime_, false);
+  pnh.param("nmea_tcp/address", address, std::string("127.0.0.1"));
+  pnh.param("nmea_tcp/port", port, 28003);
+  pnh.param("nmea_tcp/nmea_topic", nmea_topic, std::string("nmea_sentence"));
+  pnh.param("nmea_tcp/frame_id", frame_id, std::string("sentence"));
+  pnh.param("nmea_tcp/rate", rate, 0.0);
+  pnh.param("nmea_tcp/use_gpstime", use_gpstime_, false);
 
-  pub = node_handle_.advertise<nmea_msgs::Sentence>(nmea_topic, 10);
+  pub = nh.advertise<nmea_msgs::Sentence>(nmea_topic, 10);
 
   ROS_INFO("IP: %s", address.c_str());
   ROS_INFO("PORT: %d", port);
